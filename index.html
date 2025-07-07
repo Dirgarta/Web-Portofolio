@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dirga Arta Mahesa | Portfolio</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+    <!-- All CSS is now here -->
+    <style>
+        /* Google Fonts Import */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        /* Color & Font Variables */
+        :root {
+            --bg-color: #10101a;
+            --primary-color: #5A96E3;
+            --secondary-color: #191929;
+            --card-color: rgba(255, 255, 255, 0.05);
+            --font-color: #ffffff; /* Light font for dark mode */
+            --light-font-color: #a0a0a0;
+            --main-font: 'Poppins', sans-serif;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(0,0,0,0.2);
+            --header-height: 5rem;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+        }
+
+        body.light-mode {
+            --bg-color: #f0f2f5;
+            --primary-color: #0056b3;
+            --secondary-color: #ffffff;
+            --card-color: #ffffff;
+            --font-color: #1c1e21; /* Dark font for light mode */
+            --light-font-color: #606770;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --shadow-color: rgba(0,0,0,0.1);
+        }
+
+        /* Global Resets & Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: var(--header-height);
+        }
+
+        body {
+            font-family: var(--main-font);
+            background-color: var(--bg-color);
+            color: var(--font-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        header.nav-open + .overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        main {
+            /* Increased padding-top to give more space below the fixed header */
+            padding-top: calc(var(--header-height) + 2rem);
+        }
+
+        /* Mobile-Ready Navigation Styles */
+        header {
+            background: rgba(16, 16, 26, 0.8);
+            height: var(--header-height);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid transparent;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        header.scrolled {
+            background: rgba(25, 25, 41, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        body.light-mode header {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        body.light-mode header.scrolled {
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        nav .logo {
+            white-space: nowrap;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-left: 0;
+            margin-right: 3rem; /* Tambahkan ruang antara logo dan menu */
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem; /* Buat agak renggang antar menu tapi seimbang */
+            font-size: 1rem;
+            align-items: center;
+        }
+
+        .nav-links::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            height: 3px;
+            width: var(--marker-width, 0);
+            transform: translateX(var(--marker-left, 0));
+            background-color: var(--primary-color);
+            border-radius: 2px;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), 
+                        width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--font-color);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-link.active {
+            color: var(--primary-color);
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-left: 1px solid var(--border-color);
+            padding-left: 1.5rem;
+            margin-left: 1rem;
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--light-font-color);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: color 0.3s, background-color 0.3s, transform 0.3s;
+        }
+
+        .toggle-btn:hover {
+            color: var(--primary-color);
+            transform: scale(1.1) rotate(15deg);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 2rem;
+            height: 2rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 2rem;
+            height: 3px;
+            background: var(--font-color);
+            border-radius: 10px;
+            transition: all 0.3s linear;
+            position: relative;
+            transform-origin: 1px;
+        }
+
+        @media (max-width: 992px) {
+            .hamburger { display: flex; }
+            .nav-links::after { display: none; }
+            .nav-links-wrapper {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                width: min(75vw, 300px);
+                background-color: var(--secondary-color);
+                box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+                padding: 6rem 2rem 4rem;
+                transform: translateX(100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 999;
+            }
+            header.nav-open .nav-links-wrapper { transform: translateX(0); }
+            .nav-links { flex-direction: column; text-align: center; gap: 1.5rem; }
+            .nav-link { font-size: 1.2rem; }
+            .toggle-container { padding-left: 0; margin-left: 0; border-left: none; flex-direction: column; gap: 1.5rem; }
+            header.nav-open .hamburger span:nth-child(1) { transform: rotate(45deg); }
+            header.nav-open .hamburger span:nth-child(2) { opacity: 0; transform: translateX(20px); }
+            header.nav-open .hamburger span:nth-child(3) { transform: rotate(-45deg); }
+        }
+
+        /* Hero Section & Other Styles */
+        #hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #10101a, #1a1a2e, #10101a);
+            background-size: 400% 400%;
+            animation: animated-gradient 15s ease infinite;
+            margin-top: calc(-1 * (var(--header-height) + 2rem)); /* Counteract main's padding-top */
+        }
+
+        body.light-mode #hero {
+            background: linear-gradient(135deg, #e0eafc, #ffffff, #e0eafc);
+        }
+
+        @keyframes animated-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.2rem, 8vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero-content h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .hero-content #typed-text {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .hero-socials {
+            margin-top: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .hero-socials a {
+            color: var(--font-color);
+            font-size: 1.8rem;
+            margin: 0 1rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .hero-socials a:hover {
+            color: var(--primary-color);
+            transform: scale(1.2);
+        }
+
+        .scroll-down-btn {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--font-color);
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+            40% { transform: translate(-50%, -15px); }
+            60% { transform: translate(-50%, -8px); }
+        }
+
+        .section { 
+            padding: 6rem 0; /* Increased vertical padding */
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 0.75rem auto 0;
+        }
+
+        .section-hidden {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .section-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+        .profile-pic {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 5px solid var(--primary-color);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .about-text p:not(:last-child) {
+            margin-bottom: 1rem;
+        }
+
+        .education-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+        .education-card {
+            background: var(--secondary-color);
+            border-radius: 15px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 700px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
+        }
+        .education-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px var(--shadow-color);
+        }
+        .education-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .education-header i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+        .education-header h3 {
+            font-size: 1.5rem;
+        }
+
+        #resume .container {
+            text-align: center;
+        }
+        #resume p {
+            max-width: 600px;
+            margin: 0 auto 2rem auto; 
+        }
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: #fff; 
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        .btn:hover {
+            background: #4a88d6; 
+            transform: translateY(-3px);
+        }
+
+        body.light-mode .btn:hover {
+            background: #00418a;
+        }
+        
+        .skills-category-title {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+        }
+        .skills-category-title:first-of-type {
+            margin-top: 0;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.5rem;
+            justify-content: center; 
+        }
+        .skill-card {
+            background: var(--card-color);
+            border: 1px solid var(--border-color);
+            border-radius: 15px; 
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .skill-card:hover {
+            transform: translateY(-10px);
+            background-color: var(--secondary-color);
+        }
+
+        body.light-mode .skill-card:hover {
+            background-color: #e9ecef;
+        }
+
+        .skill-card i {
+            font-size: 3.5rem; 
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        .skill-card span {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--light-font-color); 
+        }
+        .skill-icon-img {
+            width: 3.5rem;
+            height: 3.5rem;
+            margin-bottom: 1rem; 
+            object-fit: contain; 
+        }
+
+        .portfolio-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5rem;
+        }
+
+        .project-item {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            background: var(--secondary-color);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+        .project-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .project-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+        .project-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        .project-image img:hover {
+            transform: scale(1.05);
+        }
+
+        .project-details {
+            flex: 1;
+            padding: 1rem;
+        }
+        .project-details h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        .project-details p {
+            margin-bottom: 1.5rem;
+            /* MODIFICATION: Use main font color for better contrast */
+            color: var(--font-color);
+        }
+        .portfolio-tags {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .tag {
+            background: rgba(90, 150, 227, 0.2);
+            color: var(--primary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .portfolio-links .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        #contact .container {
+            text-align: center;
+        }
+
+        .contact-subtitle {
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+            color: var(--light-font-color);
+        }
+
+        .contact-form-wrapper {
+            perspective: 1000px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-form {
+            background: var(--secondary-color);
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 35px var(--shadow-color);
+            transition: transform 0.1s ease-out, background-color 0.3s;
+        }
+
+        #form-status {
+            margin-top: 1.5rem;
+            font-weight: 500;
+            min-height: 1.5em;
+        }
+        #form-status.success {
+            color: var(--success-color);
+        }
+        #form-status.error {
+            color: var(--error-color);
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .contact-header h3 {
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--border-color);
+            padding: 10px 0;
+            color: var(--font-color);
+            font-size: 1rem;
+            font-family: var(--main-font);
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .form-label {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            color: var(--light-font-color);
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus + .form-label,
+        .form-input:valid + .form-label {
+            top: -20px;
+            left: 0;
+            font-size: 0.8rem;
+            color: var(--primary-color);
+        }
+
+        .form-input:focus {
+            border-bottom-color: var(--primary-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--primary-color);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(90, 150, 227, 0.3);
+        }
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(90, 150, 227, 0.5);
+            background: #4a88d6;
+        }
+
+        body.light-mode .submit-btn:hover:not(:disabled) {
+            background: #00418a;
+        }
+
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        .contact-info {
+            margin-top: 3rem;
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+        }
+        .contact-info a {
+            color: var(--light-font-color);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+        .contact-info a:hover {
+            color: var(--primary-color);
+        }
+        .contact-info a i {
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            background: var(--secondary-color);
+            border-top: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
+            .profile-pic {
+                width: 200px;
+                height: 200px;
+            }
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 1rem;
+            }
+            .project-item,
+            .project-item:nth-child(even) {
+                flex-direction: column;
+                padding: 1.5rem;
+                gap: 2rem;
+            }
+            .project-details {
+                text-align: center;
+            }
+            .portfolio-tags {
+                justify-content: center;
+            }
+            .contact-form {
+                padding: 1.5rem;
+            }
+            .contact-form-wrapper {
+                perspective: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="#hero" class="logo">Dirga Arta Mahesa</a>
+                
+                <div class="nav-links-wrapper">
+                    <ul class="nav-links">
+                        <li><a href="#about" class="nav-link" data-lang-key="navAbout">About</a></li>
+                        <li><a href="#education" class="nav-link" data-lang-key="navEducation">Education</a></li>
+                        <li><a href="#resume" class="nav-link" data-lang-key="navResume">Resume</a></li>
+                        <li><a href="#skills" class="nav-link" data-lang-key="navSkills">Skills</a></li>
+                        <li><a href="#portfolio" class="nav-link" data-lang-key="navPortfolio">Portfolio</a></li>
+                        <li><a href="#contact" class="nav-link" data-lang-key="navContact">Contact</a></li>
+                    </ul>
+                    <div class="toggle-container">
+                        <button id="theme-toggle" class="toggle-btn" aria-label="Toggle theme">
+                            <i class="fa-solid fa-sun"></i>
+                        </button>
+                        <button id="lang-toggle" class="toggle-btn" aria-label="Toggle language">EN</button>
+                    </div>
+                </div>
+
+                <button id="hamburger-btn" class="hamburger" aria-label="Open menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+    
+    <div id="overlay" class="overlay"></div>
+
+    <main>
+        <section id="hero">
+            <div class="hero-content">
+                <h1 data-lang-key="heroTitle">Hello, I'm Dirga Arta Mahesa</h1>
+                <h2><span data-lang-key="heroSubtitle">I'm</span> <span id="typed-text"></span></h2>
+                <div class="hero-socials">
+                    <a href="https://github.com/Dirgarta" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/dirga-arta-mahesa-77304828b" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+                <a href="#about" class="scroll-down-btn" aria-label="Scroll to About Me">
+                    <i class="fa-solid fa-arrow-down"></i>
+                </a>
+            </div>
+        </section>
+
+        <section id="about" class="section section-hidden">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="aboutTitle">About Me</h2>
+                <div class="about-content">
+                    <img src="photo/Profile.jpg" alt="Dirga Arta Mahesa" class="profile-pic" onerror="this.onerror=null;this.src='https://placehold.co/250x250/191929/e0e0e0?text=Profile+Pic';">
+                    <div class="about-text">
+                        <p data-lang-key="aboutP1">
+                            As a passionate Information Technology student at <strong>President University</strong> (Class of 2023), I am specializing in <strong>Cyber Security</strong>. Through dedicated coursework in network security, ethical hacking, and cryptography, I have solidified my commitment to protecting digital assets and critical infrastructures.
+                        </p>
+                        <p data-lang-key="aboutP2">
+                            I thrive on dissecting complex problems and engineering solutions that are both efficient and secure by design. I am actively seeking real-world opportunities to apply my knowledge, contribute to a forward-thinking team, and grow as a security professional.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education" class="section section-hidden">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="educationTitle">Education</h2>
+                <div class="education-container">
+                    <div class="education-card">
+                        <div class="education-header">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <h3>President University</h3>
+                        </div>
+                        <p><strong data-lang-key="educationDegree">Degree:</strong> Bachelor of Information Technology</p>
+                        <p><strong data-lang-key="educationConcentration">Concentration:</strong> Cyber Security</p>
+                        <p><strong data-lang-key="educationTimeline">Timeline:</strong> 2023 - Present</p>
+                    </div>
+                    <div class="education-card">
+                        <div class="education-header">
+                            <i class="fa-solid fa-school"></i>
+                            <h3>SMAN 2 Bandar Lampung</h3>
+                        </div>
+                        <p><strong data-lang-key="educationMajor">Major:</strong> Natural Sciences</p>
+                        <p><strong data-lang-key="educationGraduated">Graduated:</strong> 2023</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="resume" class="section section-hidden">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="resumeTitle">Resume</h2>
+                <p data-lang-key="resumeP1">For a comprehensive overview of my qualifications, please download my resume.</p>
+                <a href="photo/Resume.pdf" class="btn" download="Dirga_Arta_Mahesa_Resume.pdf" data-lang-key="resumeBtn">
+                    Download Resume <i class="fa-solid fa-download"></i>
+                </a>
+            </div>
+        </section>
+
+        <section id="skills" class="section section-hidden">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="skillsTitle">My Skills</h2>
+                
+                <h3 class="skills-category-title" data-lang-key="skillsFrontend">Frontend Development</h3>
+                <div class="skills-grid">
+                    <div class="skill-card"><i class="fa-brands fa-html5"></i><span>HTML5</span></div>
+                    <div class="skill-card"><i class="fa-brands fa-css3-alt"></i><span>CSS3</span></div>
+                    <div class="skill-card"><i class="fa-brands fa-js"></i><span>JavaScript</span></div>
+                    <div class="skill-card"><i class="fa-brands fa-react"></i><span>React</span></div>
+                </div>
+        
+                <h3 class="skills-category-title" data-lang-key="skillsBackend">Backend & Databases</h3>
+                <div class="skills-grid">
+                    <div class="skill-card"><i class="fa-brands fa-php"></i><span>PHP</span></div>
+                    <div class="skill-card"><i class="fa-brands fa-java"></i><span>Java</span></div>
+                    <div class="skill-card"><i class="fa-brands fa-python"></i><span>Python</span></div>
+                    <div class="skill-card"><i class="fa-solid fa-database"></i><span>SQL (MySQL)</span></div>
+                </div>
+        
+                <h3 class="skills-category-title" data-lang-key="skillsTools">Tools & Platforms</h3>
+                <div class="skills-grid">
+                    <div class="skill-card"><i class="fa-brands fa-git-alt"></i><span>Git</span></div>
+                    <div class="skill-card"><i class="fa-brands fa-figma"></i><span>Figma</span></div>
+                    <div class="skill-card"><i class="fa-brands fa-android"></i><span>Android Studio</span></div>
+                    <!-- MODIFICATION: Replaced Canva with Firebase -->
+                    <div class="skill-card"><i class="fa-solid fa-bolt"></i><span>Firebase</span></div>
+                </div>
+        
+                <h3 class="skills-category-title" data-lang-key="skillsCyber">Cyber Security</h3>
+                <div class="skills-grid">
+                    <div class="skill-card"><i class="fa-brands fa-linux"></i><span>Kali Linux</span></div>
+                    <div class="skill-card"><i class="fa-solid fa-shield-halved"></i><span data-lang-key="skillsNetwork">Network Security</span></div>
+                    <div class="skill-card"><i class="fa-solid fa-bug"></i><span data-lang-key="skillsEthical">Ethical Hacking</span></div>
+                    <div class="skill-card"><i class="fa-solid fa-magnifying-glass"></i><span>Autopsy</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="section section-hidden">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="portfolioTitle">Project Portfolio</h2>
+                <div class="portfolio-container">
+                    <div class="project-item">
+                        <div class="project-image">
+                            <a href="https://github.com/Dirgarta/Wumpus" target="_blank">
+                                <img src="photo/project1.png" alt="Screenshot of Wumpus Game project" onerror="this.onerror=null;this.src='https://placehold.co/600x400/191929/e0e0e0?text=Project+Image';">
+                            </a>
+                        </div>
+                        <div class="project-details">
+                            <h3 data-lang-key="portfolioWumpusTitle">Wumpus Game</h3>
+                            <p data-lang-key="portfolioWumpusP1">A classic logic-based adventure game, 'Hunt the Wumpus,' implemented in Java. The project focuses on object-oriented principles, game state management, and algorithm design for agent movement and hazard detection.</p>
+                            <div class="portfolio-tags"><span class="tag">Java</span><span class="tag" data-lang-key="portfolioTagGame">Game Dev</span><span class="tag">OOP</span></div>
+                            <div class="portfolio-links"><a href="https://github.com/Dirgarta/Wumpus" target="_blank" class="btn" data-lang-key="portfolioBtnSource">View Source Code <i class="fa-brands fa-github"></i></a></div>
+                        </div>
+                    </div>
+                    <div class="project-item">
+                        <div class="project-image">
+                            <a href="https://github.com/Dirgarta/Campus-Management-Systems" target="_blank">
+                                <img src="photo/project2.png" alt="Screenshot of Campus Event System project" onerror="this.onerror=null;this.src='https://placehold.co/600x400/191929/e0e0e0?text=Project+Image';">
+                            </a>
+                        </div>
+                        <div class="project-details">
+                            <h3 data-lang-key="portfolioCampusTitle">Campus Event System</h3>
+                            <p data-lang-key="portfolioCampusP1">A web-based platform for managing university events, built with PHP and MySQL. Features include user registration, event creation, and an administrative dashboard. The project emphasizes database design and backend logic.</p>
+                            <div class="portfolio-tags"><span class="tag">PHP</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">SQL</span></div>
+                            <div class="portfolio-links"><a href="https://github.com/Dirgarta/Campus-Management-Systems" target="_blank" class="btn" data-lang-key="portfolioBtnSource">View Source Code <i class="fa-brands fa-github"></i></a></div>
+                        </div>
+                    </div>
+                    <div class="project-item">
+                        <div class="project-image">
+                            <a href="https://github.com/Dirgarta/Project_Android_Studio" target="_blank">
+                                <img src="photo/project3.png" alt="Screenshot of Fingerprint Authentication project" onerror="this.onerror=null;this.src='https://placehold.co/600x400/191929/e0e0e0?text=Project+Image';">
+                            </a>
+                        </div>
+                        <div class="project-details">
+                            <h3 data-lang-key="portfolioFingerprintTitle">Fingerprint Authentication App</h3>
+                            <p data-lang-key="portfolioFingerprintP1">An Android application demonstrating secure biometric login using fingerprint authentication. Integrated with Firebase for user management, this project showcases skills in mobile development and modern security practices.</p>
+                            <div class="portfolio-tags"><span class="tag">Firebase</span><span class="tag">Android Studio</span><span class="tag">Java</span></div>
+                            <div class="portfolio-links"><a href="https://github.com/Dirgarta/Project_Android_Studio" target="_blank" class="btn" data-lang-key="portfolioBtnSource">View Source Code <i class="fa-brands fa-github"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section section-hidden">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="contactTitle">Get In Touch</h2>
+                <p class="contact-subtitle" data-lang-key="contactP1">
+                    I'm currently seeking internship opportunities and am open to collaborations. Feel free to send me a message!
+                </p>
+                
+                <div class="contact-form-wrapper">
+                    <form id="contact-form" action="https://formspree.io/f/mgvyddqb" method="POST" class="contact-form">
+                        <div class="contact-header">
+                            <h3 data-lang-key="contactFormTitle">Send a Message</h3>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="name" id="name" class="form-input" required>
+                            <label for="name" class="form-label" data-lang-key="contactFormName">Full Name</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" id="email" class="form-input" required>
+                            <label for="email" class="form-label" data-lang-key="contactFormEmail">Email Address</label>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" id="message" class="form-input" rows="5" required></textarea>
+                            <label for="message" class="form-label" data-lang-key="contactFormMessage">Your Message</label>
+                        </div>
+                        <button type="submit" class="btn submit-btn" data-lang-key="contactFormBtn">Send Message</button>
+                        <div id="form-status"></div>
+                    </form>
+                </div>
+        
+                <div class="contact-info">
+                    <a href="https://www.linkedin.com/in/dirga-arta-mahesa-77304828b" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+                    <a href="https://github.com/Dirgarta" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+                    <a href="mailto:darthamahesa@gmail.com"><i class="fa-solid fa-envelope"></i> darthamahesa@gmail.com</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 <span id="footer-name">Dirga Arta Mahesa</span>. <span data-lang-key="footerRights">All rights reserved.</span></p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    
+            const translations = {
+                en: {
+                    navAbout: "About",
+                    navEducation: "Education",
+                    navResume: "Resume",
+                    navSkills: "Skills",
+                    navPortfolio: "Portfolio",
+                    navContact: "Contact",
+                    heroTitle: "Hello, I'm Dirga Arta Mahesa",
+                    heroSubtitle: "I'm",
+                    typedStrings: ['an IT Student', 'a Cyber Security Enthusiast', 'a Future Ethical Hacker', 'a Problem Solver'],
+                    aboutTitle: "About Me",
+                    aboutP1: "As a passionate Information Technology student at <strong>President University</strong> (Class of 2023), I am specializing in <strong>Cyber Security</strong>. Through dedicated coursework in network security, ethical hacking, and cryptography, I have solidified my commitment to protecting digital assets and critical infrastructures.",
+                    aboutP2: "I thrive on dissecting complex problems and engineering solutions that are both efficient and secure by design. I am actively seeking real-world opportunities to apply my knowledge, contribute to a forward-thinking team, and grow as a security professional.",
+                    educationTitle: "Education",
+                    educationDegree: "Degree:",
+                    educationConcentration: "Concentration:",
+                    educationTimeline: "Timeline:",
+                    educationMajor: "Major:",
+                    educationGraduated: "Graduated:",
+                    resumeTitle: "Resume",
+                    resumeP1: "For a comprehensive overview of my qualifications, please download my resume.",
+                    resumeBtn: "Download Resume",
+                    skillsTitle: "My Skills",
+                    skillsFrontend: "Frontend Development",
+                    skillsBackend: "Backend & Databases",
+                    skillsTools: "Tools & Platforms",
+                    skillsCyber: "Cyber Security",
+                    skillsNetwork: "Network Security",
+                    skillsEthical: "Ethical Hacking",
+                    portfolioTitle: "Project Portfolio",
+                    portfolioWumpusTitle: "Wumpus Game",
+                    portfolioWumpusP1: "A classic logic-based adventure game, 'Hunt the Wumpus,' implemented in Java. The project focuses on object-oriented principles, game state management, and algorithm design for agent movement and hazard detection.",
+                    portfolioTagGame: "Game Dev",
+                    portfolioBtnSource: "View Source Code",
+                    portfolioCampusTitle: "Campus Event System",
+                    portfolioCampusP1: "A web-based platform for managing university events, built with PHP and MySQL. Features include user registration, event creation, and an administrative dashboard. The project emphasizes database design and backend logic.",
+                    portfolioFingerprintTitle: "Fingerprint Authentication App",
+                    portfolioFingerprintP1: "An Android application demonstrating secure biometric login using fingerprint authentication. Integrated with Firebase for user management, this project showcases skills in mobile development and modern security practices.",
+                    contactTitle: "Get In Touch",
+                    contactP1: "I'm currently seeking internship opportunities and am open to collaborations. Feel free to send me a message!",
+                    contactFormTitle: "Send a Message",
+                    contactFormName: "Full Name",
+                    contactFormEmail: "Email Address",
+                    contactFormMessage: "Your Message",
+                    contactFormBtn: "Send Message",
+                    formSending: "Sending...",
+                    formSuccess: "Thank you! Your message has been sent.",
+                    formError: "Oops! There was a problem. Please try again.",
+                    footerRights: "All rights reserved."
+                },
+                id: {
+                    navAbout: "Tentang",
+                    navEducation: "Pendidikan",
+                    navResume: "Resume",
+                    navSkills: "Keahlian",
+                    navPortfolio: "Portofolio",
+                    navContact: "Kontak",
+                    heroTitle: "Halo, saya Dirga Arta Mahesa",
+                    heroSubtitle: "Saya seorang",
+                    typedStrings: ['Mahasiswa TI', 'Penggemar Keamanan Siber', 'Calon Peretas Etis', 'Pemecah Masalah'],
+                    aboutTitle: "Tentang Saya",
+                    aboutP1: "Sebagai mahasiswa Teknologi Informasi yang bersemangat di <strong>President University</strong> (Angkatan 2023), saya mengambil spesialisasi <strong>Keamanan Siber</strong>. Melalui mata kuliah khusus dalam keamanan jaringan, peretasan etis, dan kriptografi, saya telah memperkuat komitmen saya untuk melindungi aset digital dan infrastruktur penting.",
+                    aboutP2: "Saya senang membedah masalah kompleks dan merekayasa solusi yang efisien dan aman. Saya aktif mencari peluang di dunia nyata untuk menerapkan pengetahuan saya, berkontribusi pada tim yang berpikiran maju, dan berkembang sebagai seorang profesional keamanan.",
+                    educationTitle: "Pendidikan",
+                    educationDegree: "Gelar:",
+                    educationConcentration: "Konsentrasi:",
+                    educationTimeline: "Linimasa:",
+                    educationMajor: "Jurusan:",
+                    educationGraduated: "Lulus:",
+                    resumeTitle: "Resume",
+                    resumeP1: "Untuk gambaran lengkap kualifikasi saya, silakan unduh resume saya.",
+                    resumeBtn: "Unduh Resume",
+                    skillsTitle: "Keahlian Saya",
+                    skillsFrontend: "Pengembangan Frontend",
+                    skillsBackend: "Backend & Database",
+                    skillsTools: "Alat & Platform",
+                    skillsCyber: "Keamanan Siber",
+                    skillsNetwork: "Keamanan Jaringan",
+                    skillsEthical: "Peretasan Etis",
+                    portfolioTitle: "Portofolio Proyek",
+                    portfolioWumpusTitle: "Permainan Wumpus",
+                    portfolioWumpusP1: "Sebuah permainan petualangan klasik berbasis logika, 'Hunt the Wumpus', yang diimplementasikan dengan Java. Proyek ini berfokus pada prinsip-prinsip berorientasi objek, manajemen status permainan, dan desain algoritma untuk pergerakan agen dan deteksi bahaya.",
+                    portfolioTagGame: "Pengembang Game",
+                    portfolioBtnSource: "Lihat Kode Sumber",
+                    portfolioCampusTitle: "Sistem Acara Kampus",
+                    portfolioCampusP1: "Platform berbasis web untuk mengelola acara universitas, dibuat dengan PHP dan MySQL. Fitur termasuk registrasi pengguna, pembuatan acara, dan dasbor administratif. Proyek ini menekankan desain database dan logika backend.",
+                    portfolioFingerprintTitle: "Aplikasi Otentikasi Sidik Jari",
+                    portfolioFingerprintP1: "Aplikasi Android yang mendemonstrasikan login biometrik aman menggunakan otentikasi sidik jari. Terintegrasi dengan Firebase untuk manajemen pengguna, proyek ini menunjukkan keahlian dalam pengembangan seluler dan praktik keamanan modern.",
+                    contactTitle: "Hubungi Saya",
+                    contactP1: "Saat ini saya sedang mencari peluang magang dan terbuka untuk kolaborasi. Jangan ragu untuk mengirimi saya pesan!",
+                    contactFormTitle: "Kirim Pesan",
+                    contactFormName: "Nama Lengkap",
+                    contactFormEmail: "Alamat Email",
+                    contactFormMessage: "Pesan Anda",
+                    contactFormBtn: "Kirim Pesan",
+                    formSending: "Mengirim...",
+                    formSuccess: "Terima kasih! Pesan Anda telah terkirim.",
+                    formError: "Oops! Terjadi masalah. Silakan coba lagi.",
+                    footerRights: "Hak cipta dilindungi."
+                }
+            };
+
+            const header = document.getElementById('header');
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const navLinksContainer = document.querySelector('.nav-links');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const overlay = document.getElementById('overlay');
+            const themeToggle = document.getElementById('theme-toggle');
+            const langToggle = document.getElementById('lang-toggle');
+            const sections = document.querySelectorAll('main > section[id]');
+            const contactForm = document.getElementById('contact-form');
+            const body = document.body;
+            let typed;
+            let currentLang = 'en';
+
+            const closeMobileMenu = () => {
+                header.classList.remove('nav-open');
+                hamburgerBtn.setAttribute('aria-expanded', 'false');
+                body.classList.remove('no-scroll');
+            };
+
+            hamburgerBtn.addEventListener('click', () => {
+                const isOpening = !header.classList.contains('nav-open');
+                header.classList.toggle('nav-open');
+                hamburgerBtn.setAttribute('aria-expanded', isOpening);
+                body.classList.toggle('no-scroll', isOpening);
+            });
+
+            overlay.addEventListener('click', closeMobileMenu);
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    closeMobileMenu();
+                    setTimeout(() => updateNavMarker(link), 100);
+                });
+            });
+
+            window.addEventListener('scroll', () => {
+                header.classList.toggle('scrolled', window.scrollY > 50);
+            });
+            
+            const updateNavMarker = (activeLink) => {
+                if (!activeLink) {
+                    navLinksContainer.style.setProperty('--marker-width', '0px');
+                    return;
+                }
+                navLinksContainer.style.setProperty('--marker-left', `${activeLink.offsetLeft}px`);
+                navLinksContainer.style.setProperty('--marker-width', `${activeLink.offsetWidth}px`);
+            };
+            
+            const updateActiveLink = () => {
+                const scrollY = window.pageYOffset;
+                let activeSectionId = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - header.offsetHeight - 150; // Adjusted offset for better accuracy
+                    if (scrollY >= sectionTop) activeSectionId = section.getAttribute('id');
+                });
+
+                let activeLink = null;
+                navLinks.forEach(link => {
+                    const isActive = link.getAttribute('href').substring(1) === activeSectionId;
+                    link.classList.toggle('active', isActive);
+                    if (isActive) activeLink = link;
+                });
+                
+                updateNavMarker(activeLink);
+            };
+            
+            const applyTheme = (theme) => {
+                body.classList.toggle('light-mode', theme === 'light');
+                themeToggle.innerHTML = theme === 'light' ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>';
+            };
+
+            themeToggle.addEventListener('click', () => {
+                const newTheme = body.classList.contains('light-mode') ? 'dark' : 'light';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
+
+            const applyLanguage = (lang) => {
+                currentLang = lang;
+                document.querySelectorAll('[data-lang-key]').forEach(el => {
+                    const key = el.dataset.langKey;
+                    if (translations[lang]?.[key]) {
+                        el.innerHTML = translations[lang][key];
+                    }
+                });
+
+                if (typed) typed.destroy();
+                typed = new Typed('#typed-text', {
+                    strings: translations[lang].typedStrings,
+                    typeSpeed: 70, backSpeed: 50, backDelay: 2000, loop: true
+                });
+
+                langToggle.textContent = lang === 'en' ? 'ID' : 'EN';
+                document.documentElement.lang = lang;
+                setTimeout(() => updateActiveLink(), 100); 
+            };
+
+            langToggle.addEventListener('click', () => {
+                const newLang = localStorage.getItem('language') === 'en' ? 'id' : 'en';
+                localStorage.setItem('language', newLang);
+                applyLanguage(newLang);
+            });
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const form = e.target;
+                    const submitButton = form.querySelector('.submit-btn');
+                    const statusDiv = form.querySelector('#form-status');
+                    const data = new FormData(form);
+
+                    statusDiv.innerHTML = '';
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = translations[currentLang].formSending;
+
+                    try {
+                        const response = await fetch(form.action, {
+                            method: 'POST',
+                            body: data,
+                            headers: { 'Accept': 'application/json' }
+                        });
+
+                        if (response.ok) {
+                            statusDiv.innerHTML = translations[currentLang].formSuccess;
+                            statusDiv.className = 'success';
+                            form.reset();
+                            
+                            setTimeout(() => {
+                                window.location.href = 'https://dirga.nochoicehub.com';
+                            }, 2000);
+
+                        } else {
+                            throw new Error('Network response was not ok.');
+                        }
+                    } catch (error) {
+                        statusDiv.innerHTML = translations[currentLang].formError;
+                        statusDiv.className = 'error';
+                    } finally {
+                        if (statusDiv.className !== 'success') {
+                            setTimeout(() => {
+                                submitButton.disabled = false;
+                                submitButton.innerHTML = translations[currentLang].contactFormBtn;
+                            }, 2000);
+                        }
+                    }
+                });
+            }
+
+            const init = () => {
+                const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+                applyTheme(savedTheme);
+
+                const savedLang = localStorage.getItem('language') || 'en';
+                applyLanguage(savedLang);
+                
+                window.addEventListener('scroll', updateActiveLink);
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('section-visible');
+                    });
+                }, { threshold: 0.1 });
+                document.querySelectorAll('.section-hidden').forEach(section => observer.observe(section));
+
+                const logoNameElement = document.querySelector('.logo');
+                if (logoNameElement) {
+                    const footerNameElement = document.getElementById('footer-name');
+                    if (footerNameElement) footerNameElement.textContent = logoNameElement.textContent;
+                }
+
+                const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+                const formWrapper = document.querySelector('.contact-form-wrapper');
+                
+                if (formWrapper && !isTouchDevice) {
+                    formWrapper.addEventListener('mousemove', (e) => {
+                        const form = formWrapper.querySelector('.contact-form');
+                        const { width, height, top, left } = formWrapper.getBoundingClientRect();
+                        const x = e.clientX - left; const y = e.clientY - top;
+                        const rotateX = (y / height - 0.5) * -15;
+                        const rotateY = (x / width - 0.5) * 15;
+                        form.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                    });
+                    formWrapper.addEventListener('mouseleave', () => {
+                        const form = formWrapper.querySelector('.contact-form');
+                        form.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+                    });
+                }
+            };
+
+            setTimeout(init, 100);
+        });
+    </script>
+
+</body>
+</html>
